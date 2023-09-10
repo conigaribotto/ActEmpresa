@@ -2,7 +2,7 @@
 package actempresa;
 
 
-public class Empleado implements Comparable<Empleado>{
+public class Empleado{
     int dni;
     String nombre;
     String apellido;
@@ -76,9 +76,4 @@ public class Empleado implements Comparable<Empleado>{
         return empresa;
     }
 
-    @Override
-    public int compareTo(Empleado t) {
-         return Integer.compare(this.dni, empresa.cuit);
-
-    }
 }

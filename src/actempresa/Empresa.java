@@ -20,6 +20,7 @@ public class Empresa  {
     empleados = new ArrayList<Empleado>();
 }
 
+    
     public String getRazonSocial() {
         return razonSocial;
     }

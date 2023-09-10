@@ -11,8 +11,8 @@ import javax.swing.table.DefaultTableModel;
 
 public class form extends javax.swing.JFrame {
       DefaultTableModel modelo= new DefaultTableModel();
-       public static TreeSet<Empleado> listaEmpleados= new TreeSet<>();
-        public static TreeSet<Empresa> listaEmpresas= new TreeSet<>();
+        private static ArrayList<Empresa> listaEmpresas = new ArrayList<Empresa>();
+        private static ArrayList<Empleado> listaEmpleados = new ArrayList<Empleado>();
        private static Empresa empresa;
        
     public form() {
@@ -333,8 +333,20 @@ public class form extends javax.swing.JFrame {
     }//GEN-LAST:event_jBCrear1ActionPerformed
 
     private void jBMostrar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBMostrar1ActionPerformed
-           borrarFilas();
-        armarCabecera();
+        borrarFilas();
+         for (Empleado empleado : listaEmpleados) {
+        Empresa empresaExistente = empleado.getEmpresa();
+        if (empresaExistente != null) {
+            Object[] fila = {
+                empleado.getDni(),
+                empleado.getNombre(),
+                empleado.getApellido(),
+                empresaExistente.getRazonSocial(),
+                empleado.getCategoria(),
+                empleado.getSueldo()
+            };
+            modelo.addRow(fila);
+        }}
       
     }//GEN-LAST:event_jBMostrar1ActionPerformed
 
@@ -463,9 +475,23 @@ public class form extends javax.swing.JFrame {
     modelo.addColumn("Sueldo");
    jTEmpleados.setModel(modelo);
    }
-    private void cargarDatos (Empleado empleado){
-    modelo.addRow(new Object[]{empleado.getDni(),empleado.getNombre(),empleado.getApellido(),empleado.getCategoria(),empleado.getSueldo(),empleado.getEmpresa()} );
+   /* private void mostrarEmpleados() {
+  for (Empleado empleado : listaEmpleados) {
+        Empresa empresaExistente = empleado.getEmpresa();
+        if (empresaExistente != null) {
+            Object[] fila = {
+                empleado.getDni(),
+                empleado.getNombre(),
+                empleado.getApellido(),
+                empresaExistente.getRazonSocial(),
+                empleado.getCategoria(),
+                empleado.getSueldo()
+            };
+            modelo.addRow(fila);
+        }
     }
+}*/
+
  private void borrarFilas(){
    int filas=modelo.getRowCount()-1;
        for(int f=filas;f>=0;f--){
