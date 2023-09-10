@@ -13,11 +13,13 @@ public class form extends javax.swing.JFrame {
       DefaultTableModel modelo= new DefaultTableModel();
         private static ArrayList<Empresa> listaEmpresas = new ArrayList<Empresa>();
         private static ArrayList<Empleado> listaEmpleados = new ArrayList<Empleado>();
-       private static Empresa empresa;
+        private static Empresa empresa;
+        private static Empleado empleado;
        
     public form() {
         initComponents();
         armarCabecera();
+        
         // jGuardar1.setVisible(false);
     }
 
@@ -160,15 +162,13 @@ public class form extends javax.swing.JFrame {
                                             .addComponent(jLabel3))
                                         .addGap(0, 0, Short.MAX_VALUE))))))
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addGap(129, 129, 129)
-                                .addComponent(jBCrear1))
-                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addGap(102, 102, 102)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 117, Short.MAX_VALUE)))
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 656, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(253, 253, 253)
+                .addComponent(jBCrear1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -183,11 +183,11 @@ public class form extends javax.swing.JFrame {
                 .addComponent(jLabel20)
                 .addGap(11, 11, 11)
                 .addComponent(jTCUIT1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(29, 29, 29)
                 .addComponent(jBCrear1)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -254,7 +254,7 @@ public class form extends javax.swing.JFrame {
                     .addComponent(jBMostrar1))
                 .addContainerGap(25, Short.MAX_VALUE))
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 392, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
@@ -333,21 +333,20 @@ public class form extends javax.swing.JFrame {
     }//GEN-LAST:event_jBCrear1ActionPerformed
 
     private void jBMostrar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBMostrar1ActionPerformed
-        borrarFilas();
-         for (Empleado empleado : listaEmpleados) {
-        Empresa empresaExistente = empleado.getEmpresa();
-        if (empresaExistente != null) {
-            Object[] fila = {
-                empleado.getDni(),
-                empleado.getNombre(),
-                empleado.getApellido(),
-                empresaExistente.getRazonSocial(),
-                empleado.getCategoria(),
-                empleado.getSueldo()
-            };
-            modelo.addRow(fila);
-        }}
-      
+         borrarFilas();
+
+    // Recorre la lista de empleados y agrega cada empleado a la tabla
+    for (Empleado empleado : listaEmpleados) {
+        modelo.addRow(new Object[]{
+            empleado.getDni(),
+            empleado.getNombre(),
+            empleado.getApellido(),
+            empleado.getCategoria(),
+            empleado.getSueldo(),
+            empleado.getEmpresa()
+        });
+    }
+    
     }//GEN-LAST:event_jBMostrar1ActionPerformed
 
     private void jGuardar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jGuardar1ActionPerformed
@@ -385,7 +384,7 @@ public class form extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, "Error, ingrese un formato válido para DNI y Sueldo");
         return;
     }
-    listaEmpleados.add(empleado);
+     listaEmpleados.add(empleado);
 
     // Limpiar los campos después de agregar un empleado
     jTDni2.setText("");
@@ -470,26 +469,22 @@ public class form extends javax.swing.JFrame {
    modelo.addColumn("Dni");
    modelo.addColumn("Nombre");
    modelo.addColumn("Apellido");
-   modelo.addColumn("Empresa");
    modelo.addColumn("Categoria");
-    modelo.addColumn("Sueldo");
+   modelo.addColumn("Sueldo");
+    modelo.addColumn("Empresa");
    jTEmpleados.setModel(modelo);
    }
-   /* private void mostrarEmpleados() {
-  for (Empleado empleado : listaEmpleados) {
-        Empresa empresaExistente = empleado.getEmpresa();
-        if (empresaExistente != null) {
-            Object[] fila = {
-                empleado.getDni(),
-                empleado.getNombre(),
-                empleado.getApellido(),
-                empresaExistente.getRazonSocial(),
-                empleado.getCategoria(),
-                empleado.getSueldo()
-            };
-            modelo.addRow(fila);
-        }
-    }
+   /*private void mostrarEmpleados(Empleado empleados ) {
+        modelo.addRow(new Object []{
+          empleado.getDni(),
+          empleado.getNombre(),
+          empleado.getApellido(),
+          empleado.getCategoria(),
+          empleado.getSueldo(),
+          empleado.getEmpresa()
+        });
+        
+        
 }*/
 
  private void borrarFilas(){
